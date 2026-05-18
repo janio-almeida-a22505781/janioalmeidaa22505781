@@ -9,6 +9,7 @@ from .models import Formacao
 from .models import TFC
 from .models import ExperienciaProfissional
 from .models import MakingOf
+from .models import Artigo, Comentario, Rating
     
 # Register your models here.
 
@@ -66,3 +67,36 @@ class MakingOfAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'entidade_relacionada', 'data_registo')
     search_fields = ('titulo', 'entidade_relacionada')
     list_filter = ('entidade_relacionada',)
+
+@admin.register(Artigo)
+class ArtigoAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'titulo',
+        'autor',
+        'data_criacao',
+    )
+
+    search_fields = (
+        'titulo',
+        'conteudo',
+    )
+
+
+@admin.register(Comentario)
+class ComentarioAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'autor',
+        'artigo',
+        'timestamp',
+    )
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'artigo',
+        'pontuacao',
+    )

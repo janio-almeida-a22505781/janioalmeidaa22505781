@@ -1,0 +1,26 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+<h1>Novo Artigo</h1>
+
+<br>
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+>
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+
+        Criar Artigo
+
+    </button>
+
+</form>
+
+{% endblock %}

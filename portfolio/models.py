@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -185,3 +186,75 @@ class MakingOf(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Artigo(models.Model):
+
+    titulo = models.CharField(max_length=200)
+
+    conteudo = models.TextField()
+
+    imagem = models.ImageField(
+        upload_to='artigos/',
+        blank=True,
+        null=True
+    )
+
+    link = models.URLField(
+        blank=True,
+        null=True
+    )
+
+    autor = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='artigos'
+    )
+
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    def media_rating(self):
+
+        ratings = self.ratings.all()
+
+        if ratings.exists():
+            return round(
+                sum(r.pontuacao for r in ratings) / ratings.count(),
+                1
+            )
+
+        return 0
+
+    def __str__(self):
+        return self.titulo
+    
+
+class Comentario(models.Model):
+
+    artigo = models.ForeignKey(
+        Artigo,
+        on_delete=models.CASCADE,
+        related_name='comentarios'
+    )
+
+    autor = models.CharField(max_length=100)
+
+    texto = models.TextField()
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comentário de {self.autor}"
+
+
+class Rating(models.Model):
+
+    artigo = models.ForeignKey(
+        Artigo,
+        on_delete=models.CASCADE,
+        related_name='ratings'
+    )
+
+    pontuacao = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.pontuacao} - {self.artigo.titulo}"

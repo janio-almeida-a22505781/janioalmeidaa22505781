@@ -1,0 +1,86 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>{{ artigo.titulo }}</h1>
+
+    <br>
+
+    {% if artigo.imagem %}
+
+        <img
+            src="{{ artigo.imagem.url }}"
+            class="article-image"
+        >
+
+    {% endif %}
+
+    <p>
+        {{ artigo.conteudo }}
+    </p>
+
+    <br>
+
+    <p class="small-text">
+
+        Autor:
+        {{ artigo.autor.username }}
+
+    </p>
+
+    <p class="small-text">
+
+        Média:
+        {{ artigo.media_rating }}
+
+    </p>
+
+</div>
+
+<h2>Comentários</h2>
+
+{% for comentario in artigo.comentarios.all %}
+
+<div class="comment">
+
+    <strong>
+        {{ comentario.autor }}
+    </strong>
+
+    <p class="small-text">
+
+        {{ comentario.timestamp }}
+
+    </p>
+
+    <br>
+
+    <p>
+        {{ comentario.texto }}
+    </p>
+
+</div>
+
+{% endfor %}
+
+<br>
+
+<h2>Adicionar comentário</h2>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ comentario_form.as_p }}
+
+    <button type="submit">
+
+        Comentar
+
+    </button>
+
+</form>
+
+{% endblock %}

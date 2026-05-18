@@ -1,0 +1,50 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+<h1>Artigos</h1>
+
+<br>
+
+{% for artigo in artigos %}
+
+<div class="card">
+
+    <h2>{{ artigo.titulo }}</h2>
+
+    <p>
+        {{ artigo.conteudo|truncatewords:40 }}
+    </p>
+
+    <br>
+
+    <p class="small-text">
+
+        Autor:
+        {{ artigo.autor.username }}
+
+        |
+
+        {{ artigo.data_criacao }}
+
+    </p>
+
+    <p class="small-text">
+
+        Rating:
+        {{ artigo.media_rating }}
+
+    </p>
+
+    <a
+        href="/artigos/{{ artigo.id }}/"
+        class="btn"
+    >
+        Ler artigo
+    </a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
