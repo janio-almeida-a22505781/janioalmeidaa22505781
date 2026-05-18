@@ -17,50 +17,78 @@
 
 <body>
 
-    <nav class="navbar">
+<header class="navbar">
 
-        <div class="logo">
+    <h1 class="logo-area">
+
+        <span class="logo">
             Janio.dev
-        </div>
+        </span>
 
-        <div class="nav-links">
+        <span class="hamburger">
+            &#9776;
+        </span>
 
-            <a href="/">Home</a>
+    </h1>
 
-            <a href="/artigos/">Artigos</a>
+    <nav class="nav-links">
 
-            {% if user.is_authenticated %}
+        <a href="/">Home</a>
 
-                <a href="/artigos/criar/">
-                    Novo Artigo
-                </a>
+        <a href="/artigos/">
+            Artigos
+        </a>
 
-                <a href="/admin/">
-                    Admin
-                </a>
+        <a href="/admin/">
+            Admin
+        </a>
 
-            {% else %}
+        {% if user.is_authenticated %}
 
-                <a href="/login/">
-                    Login
-                </a>
+            <a href="/artigos/criar/">
+                Novo Artigo
+            </a>
 
-                <a href="/register/">
-                    Registo
-                </a>
+            <a href="/logout/">
+                Logout
+            </a>
 
-            {% endif %}
+        {% else %}
 
-        </div>
+            <a href="/login/">
+                Login
+            </a>
+
+            <a href="/register/">
+                Registo
+            </a>
+
+        {% endif %}
 
     </nav>
 
-    <main class="container">
+</header>
 
-        {% block content %}
-        {% endblock %}
+<main class="container">
 
-    </main>
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+<script>
+
+    const menu = document.querySelector('.nav-links');
+
+    const botao = document.querySelector('.hamburger');
+
+    botao.addEventListener('click', () => {
+
+        menu.classList.toggle('mostrar');
+
+    });
+
+</script>
 
 </body>
 

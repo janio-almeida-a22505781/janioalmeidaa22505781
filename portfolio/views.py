@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, ArtigoForm, ComentarioForm
-from .models import Artigo, Comentario
+from .forms import RegisterForm, ArtigoForm, ComentarioForm, RatingForm
+from .models import Artigo, Comentario, Rating
 
 def register_view(request):
 
@@ -86,36 +86,39 @@ def artigo_detail(request, id):
         id=id
     )
 
+    comentario_form = ComentarioForm()
+    rating_form = RatingForm()
+
     if request.method == 'POST':
+        form_type = request.POST.get('form_type')
 
-        comentario_form = ComentarioForm(
-            request.POST
-        )
+        if form_type == 'comentario':
+            comentario_form = ComentarioForm(request.POST)
 
-        if comentario_form.is_valid():
+            if comentario_form.is_valid():
+                comentario = comentario_form.save(commit=False)
+                comentario.artigo = artigo
+                comentario.save()
 
-            comentario = comentario_form.save(
-                commit=False
-            )
+                return redirect('artigo_detail', id=id)
 
-            comentario.artigo = artigo
+        elif form_type == 'rating':
+            rating_form = RatingForm(request.POST)
 
-            comentario.save()
+            if rating_form.is_valid():
+                rating = rating_form.save(commit=False)
+                rating.artigo = artigo
+                rating.save()
 
-            return redirect(
-                'artigo_detail',
-                id=id
-            )
-
-    else:
-        comentario_form = ComentarioForm()
+                return redirect('artigo_detail', id=id)
 
     return render(
         request,
         'portfolio/artigo_detail.html',
         {
             'artigo': artigo,
-            'comentario_form': comentario_form
+            'comentario_form': comentario_form,
+            'rating_form': rating_form
         }
     )
 

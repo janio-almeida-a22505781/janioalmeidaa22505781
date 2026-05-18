@@ -15,10 +15,17 @@
     <header class="hero">
 
         <nav class="navbar">
-            <a href="#">Sobre</a>
-            <a href="#">Projetos</a>
-            <a href="#">Experiência</a>
-            <a href="#">Contacto</a>
+            <a href="/">Home</a>
+            <a href="/artigos/">Artigos</a>
+            <a href="/admin/">Admin</a>
+
+            {% if user.is_authenticated %}
+                <a href="/artigos/criar/">Novo Artigo</a>
+                <a href="/logout/">Logout</a>
+            {% else %}
+                <a href="/login/">Login</a>
+                <a href="/register/">Registo</a>
+            {% endif %}
         </nav>
 
         <div class="overlay"></div>

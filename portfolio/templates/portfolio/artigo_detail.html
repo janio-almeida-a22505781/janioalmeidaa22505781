@@ -33,11 +33,37 @@
     <p class="small-text">
 
         Média:
-        {{ artigo.media_rating }}
+        {{ artigo.media_rating }} / 5
+
+    </p>
+
+    <p class="small-text">
+
+        Avaliações:
+        {{ artigo.ratings.count }}
 
     </p>
 
 </div>
+
+<h2>Avaliar este artigo</h2>
+
+<form method="POST">
+
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="rating">
+
+    {{ rating_form.as_p }}
+
+    <button type="submit">
+
+        Avaliar
+
+    </button>
+
+</form>
+
+<br>
 
 <h2>Comentários</h2>
 
@@ -72,6 +98,7 @@
 <form method="POST">
 
     {% csrf_token %}
+    <input type="hidden" name="form_type" value="comentario">
 
     {{ comentario_form.as_p }}
 
